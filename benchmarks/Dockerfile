@@ -4,4 +4,4 @@ WORKDIR /app
 ARG FILENAME
 ENV REPORT_NAME report_$FILENAME
 
-CMD go test -bench ... > $REPORT_NAME
+CMD go test -bench ... > $REPORT_NAME -benchmem -cpuprofile profile_cpu.out

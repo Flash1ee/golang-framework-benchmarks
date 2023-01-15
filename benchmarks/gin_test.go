@@ -1,4 +1,4 @@
-package benchmarks
+package benchmarks_test
 
 import (
 	"bytes"
@@ -6,16 +6,18 @@ import (
 	"testing"
 
 	"github.com/goccy/go-json"
+
+	"benchmarks"
 )
 
 func BenchmarkGinSimple(b *testing.B) {
 	req, _ := http.NewRequest(http.MethodGet, "/", nil)
-	benchRequest(b, GetHandler("gin"), req)
+	benchRequest(b, benchmarks.GetHandler("gin"), req)
 }
 
 func BenchmarkGinParam(b *testing.B) {
 	req, _ := http.NewRequest(http.MethodGet, "/param/abc", nil)
-	benchRequest(b, GetHandler("gin"), req)
+	benchRequest(b, benchmarks.GetHandler("gin"), req)
 }
 
 func BenchmarkGinPostData(b *testing.B) {
@@ -26,5 +28,5 @@ func BenchmarkGinPostData(b *testing.B) {
 
 	req, _ := http.NewRequest(http.MethodPost, "/", bytes.NewBuffer(jsonData))
 	req.Header.Set("Content-Type", "application/json")
-	benchRequest(b, GetHandler("gin"), req)
+	benchRequest(b, benchmarks.GetHandler("gin"), req)
 }

@@ -10,23 +10,22 @@ import (
 	"benchmarks"
 )
 
-func BenchmarkEchoSimple(b *testing.B) {
+func BenchmarkFiberSimple(b *testing.B) {
 	req, _ := http.NewRequest(http.MethodGet, "/", nil)
-	benchRequest(b, benchmarks.GetHandler("echo"), req)
+	benchRequest(b, benchmarks.ToHTTPAdaptor(benchmarks.FiberApp, b), req)
 }
 
-func BenchmarkEchoParam(b *testing.B) {
+func BenchmarkFiberParam(b *testing.B) {
 	req, _ := http.NewRequest(http.MethodGet, "/param/abc", nil)
-	benchRequest(b, benchmarks.GetHandler("echo"), req)
+	benchRequest(b, benchmarks.ToHTTPAdaptor(benchmarks.FiberApp, b), req)
 }
 
-func BenchmarkEchoPostData(b *testing.B) {
+func BenchmarkFiberPostData(b *testing.B) {
 	jsonData, err := json.Marshal(genReqStrings(10))
 	if err != nil {
 		b.Fatal(err)
 	}
-
 	req, _ := http.NewRequest(http.MethodPost, "/", bytes.NewBuffer(jsonData))
 	req.Header.Set("Content-Type", "application/json")
-	benchRequest(b, benchmarks.GetHandler("echo"), req)
+	benchRequest(b, benchmarks.ToHTTPAdaptor(benchmarks.FiberApp, b), req)
 }

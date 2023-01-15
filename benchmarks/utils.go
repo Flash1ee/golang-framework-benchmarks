@@ -1,9 +1,10 @@
 package benchmarks
 
 import (
-	"fmt"
 	"net/http"
 	"sync"
+
+	"github.com/gofiber/fiber/v2"
 )
 
 type Request[T any] struct {
@@ -13,6 +14,7 @@ type Request[T any] struct {
 var (
 	httpHandlers map[string]http.Handler
 	mu           = sync.RWMutex{}
+	FiberApp     *fiber.App
 )
 
 func RegisterHandler(name string, handler http.Handler) {
@@ -35,14 +37,4 @@ func GetHandler(name string) http.Handler {
 	handler, _ := httpHandlers[name]
 	mu.RUnlock()
 	return handler
-}
-
-func genReqStrings(len int) Request[[]string] {
-	data := make([]string, len)
-
-	for i := 0; i < len; i++ {
-		data[i] = fmt.Sprintf("data_%d", i)
-	}
-
-	return Request[[]string]{Data: data}
 }
