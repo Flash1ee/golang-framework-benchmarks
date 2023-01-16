@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"testing"
 
-	"benchmarks"
+	"main/benchmarks"
 )
 
 func BenchmarkHttpSimple(b *testing.B) {

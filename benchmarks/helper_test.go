@@ -6,7 +6,7 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"benchmarks"
+	"main/benchmarks"
 )
 
 func benchRequest(b *testing.B, router http.Handler, r *http.Request) {

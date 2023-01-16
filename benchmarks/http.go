@@ -3,11 +3,12 @@ package benchmarks
 import (
 	"fmt"
 	"net/http"
+	"strings"
 
 	"github.com/goccy/go-json"
 )
 
-func init() {
+func GetHttpApp() *http.ServeMux {
 	h := http.NewServeMux()
 	h.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		if r.Method == http.MethodGet {
@@ -37,7 +38,7 @@ func init() {
 		w.WriteHeader(http.StatusOK)
 		fmt.Fprintf(w, req.Data[len(req.Data)-1])
 	})
-	h.HandleFunc("/param", func(w http.ResponseWriter, r *http.Request) {
+	h.HandleFunc("/param/", func(w http.ResponseWriter, r *http.Request) {
 		if r.Method != http.MethodGet {
 			w.WriteHeader(http.StatusNotFound)
 			return
@@ -46,7 +47,17 @@ func init() {
 		w.Header().Set("Content-Type", "text/plain; charset=utf-8")
 		w.WriteHeader(http.StatusOK)
 
-		fmt.Fprintf(w, "Hello, %s", r.URL.Query().Get("name"))
+		id := strings.TrimPrefix(r.URL.Path, "/param/")
+
+		fmt.Fprintf(w, "Hello, %s", id)
 	})
 	RegisterHandler("http", h)
+
+	return h
+}
+
+func StartHttp() {
+	DeleteHandler("http")
+	h := GetHttpApp()
+	go http.ListenAndServe(":3004", h)
 }

@@ -7,6 +7,13 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
+func init() {
+	GetEchoApp()
+	GetFiberApp()
+	GetGinApp()
+	GetHttpApp()
+}
+
 type Request[T any] struct {
 	Data T
 }
@@ -37,4 +44,11 @@ func GetHandler(name string) http.Handler {
 	handler, _ := httpHandlers[name]
 	mu.RUnlock()
 	return handler
+}
+
+func DeleteHandler(name string) {
+	if httpHandlers == nil {
+		return
+	}
+	delete(httpHandlers, name)
 }

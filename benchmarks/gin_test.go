@@ -7,7 +7,7 @@ import (
 
 	"github.com/goccy/go-json"
 
-	"benchmarks"
+	"main/benchmarks"
 )
 
 func BenchmarkGinSimple(b *testing.B) {
