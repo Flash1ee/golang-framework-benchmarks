@@ -1,0 +1,6 @@
+version: "3.9"
+services:
+  main:
+    image: go-bench-framework
+    volumes:
+      - ./out:/app/out

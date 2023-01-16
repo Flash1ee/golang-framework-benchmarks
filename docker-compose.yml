@@ -1,0 +1,12 @@
+version: "3.9"
+services:
+  main:
+    image: go-ab-bench-framework
+    build:
+      context: .
+      dockerfile: ./benchmarks/ab.Dockerfile
+    ports:
+      - "3001:3001"
+      - "3002:3002"
+      - "3003:3003"
+      - "3004:3004"

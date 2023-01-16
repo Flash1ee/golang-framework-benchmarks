@@ -14,8 +14,10 @@ import (
 
 var Handler fasthttp.RequestHandler
 
-func init() {
-	h := fiber.New()
+func GetFiberApp() *fiber.App {
+	h := fiber.New(fiber.Config{
+		Prefork: true,
+	})
 	h.Get("/", func(c *fiber.Ctx) error {
 		return c.SendString("Hello, World")
 	})
@@ -39,6 +41,12 @@ func init() {
 		return c.SendString(fmt.Sprintf("Hello, %s", name))
 	})
 	FiberApp = h
+
+	return h
+}
+
+func StartFiber() {
+	go FiberApp.Listen(":3002")
 }
 
 func ToHTTPAdaptor(app *fiber.App, b *testing.B) http.HandlerFunc {

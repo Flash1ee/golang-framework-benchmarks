@@ -7,7 +7,7 @@ import (
 
 	"github.com/goccy/go-json"
 
-	"benchmarks"
+	"main/benchmarks"
 )
 
 func BenchmarkEchoSimple(b *testing.B) {

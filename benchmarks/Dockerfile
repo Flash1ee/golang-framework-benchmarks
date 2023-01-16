@@ -1,7 +1,12 @@
 FROM golang:1.19.3
-COPY ./benchmarks /app
+COPY ../go.mod ../go.sum /app/
+COPY ./benchmarks /app/benchmarks
 WORKDIR /app
+RUN go mod tidy
+
 ARG FILENAME
 ENV REPORT_NAME report_$FILENAME
 
-CMD go test -bench ... > $REPORT_NAME -benchmem -cpuprofile profile_cpu.out
+RUN mkdir /app/out
+
+CMD cd benchmarks && go test -bench=. > /app/out/$REPORT_NAME -benchmem -cpuprofile /app/out/profile_cpu.out

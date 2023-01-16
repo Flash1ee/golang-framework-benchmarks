@@ -7,7 +7,7 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func init() {
+func GetEchoApp() *echo.Echo {
 	h := echo.New()
 	h.GET("/", func(c echo.Context) error {
 		return c.String(http.StatusOK, "Hello, World")
@@ -35,4 +35,11 @@ func init() {
 	})
 
 	RegisterHandler("echo", h)
+	return h
+}
+
+func StartEcho() {
+	DeleteHandler("echo")
+	h := GetEchoApp()
+	go h.Start(":3001")
 }

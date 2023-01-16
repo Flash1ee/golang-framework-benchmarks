@@ -6,7 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func init() {
+func GetGinApp() *gin.Engine {
 	gin.SetMode(gin.ReleaseMode)
 	h := gin.New()
 	h.GET("/", func(c *gin.Context) {
@@ -32,4 +32,12 @@ func init() {
 	})
 
 	RegisterHandler("gin", h)
+
+	return h
+}
+
+func StartGin() {
+	DeleteHandler("gin")
+	h := GetGinApp()
+	go h.Run(":3003")
 }
